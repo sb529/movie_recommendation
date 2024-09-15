@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Custom style for 5 movies per row */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 movies per row */
+            gap: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Recommendations</h1>
+
+        <div class="movie-grid">
+            {% for movie in movies[:10] %}  <!-- Limit to 10 movies (5 per row in 2 rows) -->
+                <div class="movie-card">
+                    {% if movie.poster_path %}
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} poster">
+                    {% else %}
+                        <p>No poster available</p>
+                    {% endif %}
+                    <h2>{{ movie.title }}</h2>
+                    <p>Rating: {{ movie.vote_average }}/10</p>
+                    <p>Release Date: {{ movie.release_date }}</p>
+
+                    <!-- Only show 'Available on...' if platforms exist -->
+                    {% if movie.platforms and movie.platforms|length > 0 %}
+                        <div class="platforms">
+                            Available on: 
+                            {% for platform in movie.platforms %}
+                                <span>{{ platform }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="{{ url_for('home') }}" class="back-button">Back to Search</a>
+    </div>
+</body>
+</html>

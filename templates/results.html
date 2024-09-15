@@ -28,7 +28,7 @@
                         <p>No poster available</p>
                     {% endif %}
                     <h2>{{ movie.title }}</h2>
-                    <p>Rating: {{ movie.vote_average }}/10</p>
+                    <p>Rating: {{ movie.vote_average|round(1) }}/10</p>  <!-- Round to one decimal place -->
                     <p>Release Date: {{ movie.release_date }}</p>
 
                     <!-- Only show 'Available on...' if platforms exist -->
